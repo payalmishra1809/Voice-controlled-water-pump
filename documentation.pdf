@@ -1,0 +1,101 @@
+VOICE CONTROLLED 
+WATER PUMP 
+DOCUMENTATION 
+CODE FOR VOICE CONTROL WATER PUMP 
+#include <SoftwareSerial.h> 
+#include <ElechouseVoiceRecognitionV3.h> 
+SoftwareSerial mySerial(2, 3); // RX, TX for Voice Recognition Module 
+VR myVR(mySerial); 
+const int relayPin = 9; // Relay control pin 
+void setup() { 
+mySerial.begin(9600); 
+Serial.begin(9600); 
+pinMode(relayPin, OUTPUT); 
+digitalWrite(relayPin, LOW); // Ensure pump is off initially 
+Serial.println("Voice Control System Initialized"); 
+} 
+void loop() { 
+int ret = myVR.recognize(buf, 0); // Recognize voice command 
+if (ret > 0) { 
+switch (buf[0].value) { 
+case 0: // Command for "PUMP ON" 
+digitalWrite(relayPin, HIGH); // Turn on pump 
+Serial.println("Pump is turned ON"); 
+break; 
+case 1: // Command for "PUMP OFF" 
+digitalWrite(relayPin, LOW); // Turn off pump 
+Serial.println("Pump is turned OFF"); 
+break; 
+default: 
+Serial.println("Unknown command"); 
+break; 
+} 
+} 
+} 
+PAGE 1 
+CODE EXPLANATION 
+LIBRARIES USED 
+• SoftwareSerial: This library allows for serial communication on 
+other digital pins of the Arduino, enabling communication with the 
+Voice Recognition Module. 
+• ElechouseVoiceRecognitionV3: This library is specifically designed 
+to interface with the Elechouse Voice Recognition Module, allowing 
+you to recognize voice commands. 
+PIN CONFIGURATION 
+• Voice Recognition Module: 
+• RXD connected to digital pin 2. 
+• TXD connected to digital pin 3. 
+• Relay Control: 
+• Connected to digital pin 9, which controls the pump. 
+SETUP FUNCTION 
+• Initializes the Voice Recognition Module and serial communication 
+for debugging. 
+• Sets up the relay pin as an output. 
+• Ensures that the pump is off initially by setting the relay pin to LOW. 
+• Outputs a message to the Serial Monitor indicating that the system is 
+initialized. 
+LOOP FUNCTION 
+• Continuously checks for recognized voice commands using 
+the recognize method from the Voice Recognition library. 
+PAGE 2 
+• If a command is recognized (indicated by ret > 0), it processes the 
+command: 
+• Command Index 0 (e.g., "PUMP ON"): 
+o Turns on the pump by setting the relay pin HIGH. 
+o Outputs "Pump is turned ON" to the Serial Monitor for 
+confirmation. 
+• Command Index 1 (e.g., "PUMP OFF"): 
+o Turns off the pump by setting the relay pin LOW. 
+o Outputs "Pump is turned OFF" to the Serial Monitor for 
+confirmation. 
+• If an unknown command is received, it outputs "Unknown 
+command" for debugging purposes. 
+PAGE 3 
+CIRCUIT DIAGRAM: 
+PAGE 4 
+EXPECTED OUTPUT 
+When Commands are Recognized 
+1. Voice Command: "PUMP ON" 
+• The pump turns on. 
+• Serial Monitor displays: Pump is turned ON 
+2. Voice Command: "PUMP OFF" 
+• The pump turns off. 
+• Serial Monitor displays: Pump is turned OFF 
+Initial State 
+Upon powering up or resetting: 
+• The system initializes and outputs: Voice Control System Initialized 
+• The pump will be off by default. 
+Debugging Output 
+While testing, any recognized command will be printed to the Serial 
+Monitor. This helps verify that commands are being recognized correctly 
+and allows for troubleshooting if necessary. 
+PAGE 5 
+CONCLUSION 
+This code effectively creates a simple voice-controlled system for a pump 
+using voice commands. By integrating a Voice Recognition Module with an 
+Arduino, we can operate devices hands-free, enhancing convenience in 
+home automation projects.We can expand this functionality further by 
+adding more commands or integrating additional sensors and devices as 
+needed. This approach not only makes the project more interactive but also 
+showcases the versatility of Arduino in handling various input methods.. 
+PAGE 6 
